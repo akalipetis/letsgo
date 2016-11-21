@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"time"
 
-	mediator "gitlab.crypteianetworks.prv/stream-mediator"
-
 	"gopkg.in/kataras/iris.v4"
 	redis "gopkg.in/redis.v4"
 )
@@ -30,7 +28,7 @@ func getRedisConnection(address string, db int) *redis.Client {
 func main() {
 
 	iris.Get("/", func(c *iris.Context) {
-		redisClient := mediator.GetRedisConnection("redishost", 6379)
+		redisClient := getRedisConnection("redishost", 6379)
 		redisClient.Set("hwKey", "<h1> Hello World! </h1>", 0)
 		hw, _ := redisClient.Get("hwKey").Result()
 		c.HTML(iris.StatusOK, hw)
